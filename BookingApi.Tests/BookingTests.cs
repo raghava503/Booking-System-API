@@ -6,6 +6,7 @@ using BookingApi.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace BookingApi.Tests;
 
 public class BookingTests(TestFactory factory) : IClassFixture<TestFactory>
@@ -25,19 +26,24 @@ public class BookingTests(TestFactory factory) : IClassFixture<TestFactory>
     }
 
     [Fact]
-    public async Task Database_RejectsSecondBookingForSameSlot()
+public async Task Database_RejectsSecondBookingForSameSlot()
+{
+    int slotId;
+    using (var scope = factory.Services.CreateScope())
     {
-        using var scope = factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        var slot = await db.Slots.OrderBy(s => s.Id).Skip(1).FirstAsync();
-
-        db.Bookings.Add(new Booking { SlotId = slot.Id, CustomerName = "A" });
+        slotId = (await db.Slots.AsNoTracking().OrderBy(s => s.Id).Skip(1).FirstAsync()).Id;
+        db.Bookings.Add(new Booking { SlotId = slotId, CustomerName = "A" });
         await db.SaveChangesAsync();
-
-        db.Bookings.Add(new Booking { SlotId = slot.Id, CustomerName = "B" });
-        await Assert.ThrowsAsync<DbUpdateException>(() => db.SaveChangesAsync());
     }
 
+    using (var scope = factory.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        db.Bookings.Add(new Booking { SlotId = slotId, CustomerName = "B" });
+        await Assert.ThrowsAsync<DbUpdateException>(() => db.SaveChangesAsync());
+    }
+}
     [Fact]
     public async Task UnknownSlot_Returns404()
     {
