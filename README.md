@@ -84,5 +84,7 @@ Integration tests run against a real SQLite database through `WebApplicationFact
 - GitHub Actions CI to run the tests on every push
 
 ---
+## 👤 Author
 
-Built by [@raghava503](https://github.com/raghava503) as part of my journey to becoming a full stack .NET developer.
+**Raghava**: aspiring full stack .NET developer
+[GitHub](https://github.com/raghava503) · [LinkedIn](https://linkedin.com/in/raghava-gudiwada-0b2bb4317)
