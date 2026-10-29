@@ -18,15 +18,17 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
     SeedData.Run(db);
 }
-
+/*
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+*/
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();
