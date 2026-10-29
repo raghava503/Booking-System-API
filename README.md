@@ -1,5 +1,5 @@
 # 🎟️ BookingApi: One Slot, One Winner
-
+![CI](https://github.com/raghava503/Booking-System-API/actions/workflows/ci.yml/badge.svg)
 > 20 people click "Book" on the same slot at the same instant.
 > **Exactly one gets it. The other 19 get a polite `409 Conflict`.**
 > No double bookings. No overbooked haircuts. No drama.
