@@ -9,8 +9,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(o =>
     o.UseSqlite(builder.Configuration.GetConnectionString("Default") ?? "Data Source=booking.db"));
-
 var app = builder.Build();
+//var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
